@@ -1,115 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Just One Question 💖</title>
+<meta charset="UTF-8">
+<title>Just One Question 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 
-  <!-- Prevent search engine indexing -->
-  <meta name="robots" content="noindex, nofollow">
+<style>
+:root {
+  --soft-pink: #ff7a8a;
+  --dark-bg: #0e0e0e;
+}
 
-  <!-- Mobile friendly -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  overflow: hidden;
+}
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Segoe UI', sans-serif;
-      overflow: hidden;
-    }
+/* ===== MAIN LAYOUT ===== */
+.main {
+  display: flex;
+  height: 100%;
+}
 
-    .card {
-      text-align: center;
-      padding: 40px;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(12px);
-      border-radius: 25px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-      color: white;
-      max-width: 90%;
-    }
+.left, .right {
+  padding: 40px;
+  box-sizing: border-box;
+}
 
-    h1 {
-      font-size: 2.2rem;
-      margin-bottom: 40px;
-    }
+.left {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
-    button {
-      padding: 15px 35px;
-      font-size: 1.1rem;
-      border-radius: 30px;
-      border: none;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
+.right {
+  width: 55%;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border-left: 1px solid rgba(255,255,255,0.3);
+}
 
-    #yes {
-      background: #ff4d6d;
-      color: white;
-      margin-right: 20px;
-    }
+/* ===== QUESTION ===== */
+h1 {
+  font-size: 2.3rem;
+  color: white;
+  margin-bottom: 40px;
+}
 
-    #yes:hover {
-      transform: scale(1.1);
-    }
+.buttons button {
+  padding: 14px 34px;
+  border-radius: 30px;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
 
-    #no {
-      background: white;
-      color: #ff4d6d;
-      position: absolute;
-    }
-  </style>
+#yes {
+  background: var(--soft-pink);
+  color: white;
+  margin-right: 20px;
+}
+
+#no {
+  background: white;
+  color: var(--soft-pink);
+}
+
+/* ===== LETTER ===== */
+.letter-title {
+  color: white;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  opacity: 0.9;
+}
+
+.letter-box {
+  height: 70vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.letter {
+  position: absolute;
+  top: 100%;
+  color: white;
+  font-size: 1rem;
+  line-height: 1.7;
+  opacity: 0.95;
+}
+
+/* ===== DARK OVERLAY (NO) ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--dark-bg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s ease;
+  z-index: 50;
+}
+
+.overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.overlay-content {
+  color: white;
+  text-align: center;
+  opacity: 0.55;
+  font-size: 1.1rem;
+  position: absolute;
+  top: 40%;
+  width: 100%;
+}
+
+.overlay button {
+  margin-top: 25px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.4);
+  color: white;
+  padding: 10px 24px;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+/* ===== EARTH SCENE ===== */
+.earth-scene {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #111 0%, #000 70%);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 100;
+}
+
+.earth {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: url('EARTH_IMAGE_URL_HERE.jpg') center/cover;
+  filter: saturate(0.85) brightness(0.95);
+  animation: rotateEarth 90s linear infinite;
+  box-shadow: 0 0 40px rgba(255,255,255,0.15);
+}
+
+@keyframes rotateEarth {
+  from { background-position: 0% center; }
+  to { background-position: 200% center; }
+}
+
+.earth-text {
+  color: white;
+  margin-top: 30px;
+  font-size: 1.4rem;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+
+.memory-btn {
+  margin-top: 30px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.5);
+  color: white;
+  padding: 12px 28px;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width: 900px) {
+  .main { flex-direction: column; }
+  .left, .right { width: 100%; }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="card">
-    <h1>Will you be my Valentine? 💘</h1>
-    <button id="yes" onclick="yesClicked()">Yes 💖</button>
-    <button id="no">No 💔</button>
+<div class="main">
+  <div class="left">
+    <h1>Will you be my Valentine?</h1>
+    <div class="buttons">
+      <button id="yes">Yes</button>
+      <button id="no">No</button>
+    </div>
   </div>
 
-  <script>
-    const noBtn = document.getElementById("no");
+  <div class="right">
+    <div class="letter-title">A message for you</div>
+    <div class="letter-box">
+      <div class="letter" id="letter">
+        I didn’t plan these words…<br><br>
+        They just kept finding their way back to you.<br><br>
+        In quiet moments, in laughter, in pauses that felt full.<br><br>
+        I don’t know when it happened — only that it did.<br><br>
+        Slowly. Honestly. Completely.<br><br>
+        And maybe that’s why I’m asking this the way I am.
+      </div>
+    </div>
+  </div>
+</div>
 
-    function moveNo() {
-      const padding = 20;
-      const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding);
-      const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding);
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
-    }
+<!-- DARK OVERLAY -->
+<div class="overlay" id="overlay">
+  <div class="overlay-content">
+    You just darkened my whole world, bae…<br>
+    but I know you didn’t mean to 🖤<br><br>
+    <button onclick="restore()">Bring the light back</button>
+  </div>
+</div>
 
-    // Desktop hover
-    noBtn.addEventListener("mouseover", moveNo);
+<!-- EARTH SCENE -->
+<div class="earth-scene" id="earthScene">
+  <div class="earth"></div>
+  <div class="earth-text" id="earthText">You are my world.</div>
+  <button class="memory-btn">Walk through our memories →</button>
+</div>
 
-    // Mobile touch
-    noBtn.addEventListener("touchstart", moveNo);
+<script>
+/* Letter auto-scroll */
+const letter = document.getElementById('letter');
+let scrollY = 100;
+const scrollInterval = setInterval(() => {
+  scrollY -= 0.3;
+  letter.style.top = scrollY + '%';
+}, 30);
 
-    function yesClicked() {
-      document.body.innerHTML = `
-        <div style="
-          height:100vh;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          text-align:center;
-          background:linear-gradient(135deg,#ff4d6d,#ff9a9e);
-          color:white;
-          font-size:2.4rem;
-          font-family:'Segoe UI', sans-serif;
-          padding:20px;
-        ">
-          Yaaay! 💕<br><br>
-          You just made my Valentine perfect 🥰
-        </div>
-      `;
-    }
-  </script>
+/* NO logic */
+document.getElementById('no').onclick = () => {
+  document.getElementById('overlay').classList.add('active');
+};
+
+/* Restore from NO */
+function restore() {
+  document.getElementById('overlay').classList.remove('active');
+}
+
+/* YES logic */
+document.getElementById('yes').onclick = () => {
+  clearInterval(scrollInterval);
+  document.querySelector('.main').style.display = 'none';
+  const earth = document.getElementById('earthScene');
+  earth.style.display = 'flex';
+  setTimeout(() => {
+    document.getElementById('earthText').style.opacity = 1;
+  }, 1200);
+};
+</script>
 
 </body>
 </html>
